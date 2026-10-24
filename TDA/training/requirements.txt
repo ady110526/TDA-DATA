@@ -1,0 +1,13 @@
+# Môi trường DÙNG CHUNG cho cả 3 máy – Windows, Python 3.11 (64-bit)
+#
+# Bước 1 (riêng, vì PyTorch lấy từ kho của pytorch.org, bản CUDA 12.8 – bắt buộc cho RTX 5050):
+#   pip install torch==2.11.0 torchvision==0.26.0 --index-url https://download.pytorch.org/whl/cu128
+#
+# Bước 2:
+#   pip install -r requirements.txt
+#
+# Không tự nâng cấp thư viện trên một máy. Code sẽ dừng nếu phiên bản lệch.
+ultralytics==8.4.178
+pycocotools==2.0.11
+pyyaml
+pandas

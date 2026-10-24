@@ -1,0 +1,17 @@
+# Dữ liệu và kết quả không đưa lên GitHub (dữ liệu công bố riêng)
+split_data_by_box/
+split_data_by_image/
+results/
+results_*/
+fps/
+fps_*/
+aggregate/
+*.zip
+# Trọng số mô hình
+*.pt
+*.pth
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/

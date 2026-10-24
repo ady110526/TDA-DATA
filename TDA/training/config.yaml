@@ -1,0 +1,52 @@
+# =====================================================================
+# CẤU HÌNH TRAIN DÙNG CHUNG CHO CẢ 3 MÁY
+# File này phải GIỐNG HỆT NHAU trên 3 laptop. Mỗi lần chạy, code in ra mã
+# config_sha256; 3 người so mã này với nhau trước khi train.
+# Muốn đổi bất kỳ giá trị nào: cả nhóm thống nhất, sửa trên 1 máy rồi chép
+# file sang 2 máy còn lại.
+# Đường dẫn dữ liệu KHÔNG ghi ở đây (mỗi máy khác nhau) mà truyền bằng --data.
+# =====================================================================
+
+dataset:
+  # Bộ chia nhóm đã chọn: phân tầng theo số box
+  name: "split_data_by_box"     # nhóm chốt 17/10/2026
+  # Dấu vân tay của bộ dữ liệu. Lần đầu để trống, chạy:
+  #   python train_may1_rtx5050.py --data <thư mục> --check
+  # rồi dán giá trị dataset_fingerprint in ra vào đây (BẮT BUỘC trước khi train thật).
+  fingerprint: "e763e77b581d07df"
+
+run:
+  seeds: [0, 1, 2]          # mỗi mô hình chạy 3 seed → báo mean ± std
+  results_dir: "results"    # thư mục kết quả (tương đối so với thư mục code)
+
+yolo:                       # áp dụng cho YOLOv8, YOLO11, YOLO26 (Ultralytics)
+  imgsz: 640                # CẦN NHÓM CHỐT (mặc định Ultralytics là 640)
+  epochs: 100               # CẦN NHÓM CHỐT (mặc định Ultralytics là 100)
+  batch: 16                 # cố định cho mọi máy, theo máy 6 GB; kiểm tra bằng --smoke
+  workers: 4                # cố định cho mọi máy
+  optimizer: "auto"         # CẦN NHÓM CHỐT: 'auto' = công thức mặc định của từng mô hình
+  patience: 100             # early stopping (mặc định Ultralytics)
+  amp: true
+  deterministic: true
+  fliplr: 0.0               # ĐÃ DUYỆT: tắt lật ngang (biển trái/phải)
+  cache: false
+  # Đánh giá trên test:
+  eval_conf: 0.001
+  eval_iou: 0.7
+  max_det: 300
+
+faster_rcnn:                # torchvision fasterrcnn_resnet50_fpn, trọng số COCO
+  epochs: 26                # theo công thức tham chiếu của torchvision
+  lr_steps: [16, 22]
+  batch: 4                  # CẦN KIỂM TRA bằng --smoke trên máy 8 GB
+  lr: 0.005                 # 0.02 × batch / 16 (quy tắc tuyến tính của torchvision)
+  momentum: 0.9
+  weight_decay: 0.0001
+  warmup_iters: 1000
+  workers: 4
+  amp: true
+  min_size: 800             # kích thước mặc định của torchvision
+  max_size: 1333
+  hflip: false              # ĐÃ DUYỆT: không lật ngang
+  eval_score_thresh: 0.001
+  max_det: 300
