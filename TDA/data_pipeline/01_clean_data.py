@@ -43,7 +43,7 @@ except ImportError:  # chạy ngoài Colab (dùng để kiểm thử)
     DRIVE_ROOT = Path(os.environ.get('VNTS_DRIVE_ROOT', './VNTrafficSign'))
     LOCAL_ROOT = Path(os.environ.get('VNTS_LOCAL_ROOT', './local'))
 
-SRC_ZIP = DRIVE_ROOT / 'data' / 'Dataset DAP391m.v4i.yolov8.zip'
+SRC_ZIP = DRIVE_ROOT / 'data' / 'Dataset DAP391m.v5i.yolov8.zip'
 OUT_DIR = DRIVE_ROOT / 'output_cleaneddata'          # thư mục kết quả trên Drive
 EXTRACT_DIR = LOCAL_ROOT / 'raw_data'                # giải nén cục bộ, không lên Drive
 LOCAL_OUT_ZIP = LOCAL_ROOT / 'cleaned_data.zip'      # tạo zip cục bộ trước rồi mới chép lên Drive
